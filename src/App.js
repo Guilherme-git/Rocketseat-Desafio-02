@@ -10,21 +10,24 @@ function App() {
     api.get('/repositories').then(response => {
       setRepositorie(response.data);
     });
-  }, [repositorie]);
+  }, []);
 
   async function handleAddRepository() {
-    // TODO
     const response = await api.post('/repositories', {
       title: "Maria",
       url: "aaaaa",
       "techs": ["bbbbb","cccc"]
     });
-    const res = response.data;
-    setRepositorie([...repositorie, res])
+  
+    setRepositorie([...repositorie, response.data]);
   }
 
   async function handleRemoveRepository(id) {
-    api.delete(`repositories/${id}`);
+    await api.delete(`repositories/${id}`);
+    
+    setRepositorie(repositorie.filter(
+      repository => repository.id != id
+    ))
   }
 
   return (
